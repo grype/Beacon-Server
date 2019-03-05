@@ -1,6 +1,8 @@
 Class {
 	#name : #RemoteExceptionSignal,
 	#superclass : #ExceptionSignal,
+	#traits : 'TBeaconRemoteSignal',
+	#classTraits : 'TBeaconRemoteSignal classTrait',
 	#category : #'Beacon-Server-Signals'
 }
 

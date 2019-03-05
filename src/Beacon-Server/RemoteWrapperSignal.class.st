@@ -1,6 +1,8 @@
 Class {
 	#name : #RemoteWrapperSignal,
 	#superclass : #WrapperSignal,
+	#traits : 'TBeaconRemoteSignal',
+	#classTraits : 'TBeaconRemoteSignal classTrait',
 	#instVars : [
 		'targetType'
 	],

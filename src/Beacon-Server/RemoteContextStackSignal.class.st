@@ -1,6 +1,8 @@
 Class {
 	#name : #RemoteContextStackSignal,
 	#superclass : #ContextStackSignal,
+	#traits : 'TBeaconRemoteSignal',
+	#classTraits : 'TBeaconRemoteSignal classTrait',
 	#category : #'Beacon-Server-Signals'
 }
 
