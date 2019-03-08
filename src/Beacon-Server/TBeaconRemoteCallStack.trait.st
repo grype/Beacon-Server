@@ -1,7 +1,5 @@
 Trait {
 	#name : #TBeaconRemoteCallStack,
-	#superclass : nil,
-	#type : nil,
 	#instVars : [
 		'stack'
 	],
@@ -19,7 +17,7 @@ TBeaconRemoteCallStack >> gtInspectorCallGraphIn: composite [
 			frames := self stack sorted: [ :a :b | a index > b index ].
 			view shape label
 				text:
-					[ :each | (each module , '.' , each invocation) gtDisplayString ];
+					[ :each | (each module , ' ' , each invocation) gtDisplayString ];
 				color: [ Smalltalk ui theme textColor ].
 			view nodes: frames.
 			frames

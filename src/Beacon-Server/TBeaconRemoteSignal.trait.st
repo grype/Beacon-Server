@@ -1,7 +1,5 @@
 Trait {
 	#name : #TBeaconRemoteSignal,
-	#superclass : nil,
-	#type : nil,
 	#instVars : [
 		'source'
 	],

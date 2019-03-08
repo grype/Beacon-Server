@@ -1,7 +1,5 @@
 Trait {
 	#name : #TBeaconMaterializing,
-	#superclass : nil,
-	#type : nil,
 	#category : #'Beacon-Server-Server'
 }
 

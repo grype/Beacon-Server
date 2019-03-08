@@ -20,7 +20,7 @@ RemoteCallStackFrame >> = anObject [
 		ifTrue: [ ^ true ].
 	self class = anObject class
 		ifFalse: [ ^ false ].
-	^ address = anObject address
+	^ index = anObject index and: [ address = anObject address ]
 ]
 
 { #category : #accessing }
@@ -37,7 +37,7 @@ RemoteCallStackFrame >> address: anObject [
 RemoteCallStackFrame >> hash [
 	"Answer an integer value that is related to the identity of the receiver."
 
-	^ address hash
+	^ index hash bitXor: address hash
 ]
 
 { #category : #accessing }
