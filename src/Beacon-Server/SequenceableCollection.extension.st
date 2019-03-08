@@ -3,19 +3,22 @@ Extension { #name : #SequenceableCollection }
 { #category : #'*Beacon-Server' }
 SequenceableCollection >> gtInspectorCallGraphIn: composite [
 	<gtInspectorPresentationOrder: 1>
-	| cls frames |
+	| frames |
 	composite roassal2
 		title: [ 'Call Graph' translated ];
-		when: [ cls := self anyOne class.
-			cls hasTraitComposition
-				and: [ cls traitComposition allTraits includes: TBeaconRemoteCallStack ] ];
+		when: [ self
+				detect: [ :each | each isRemoteSignalWithStack ]
+				ifFound: [ true ]
+				ifNone: [ false ] ];
 		initializeView: [ RTMondrian new ];
-		painting: [ :view | 
+		painting: [ :view |
+			| stackedSignals | 
 			view shape label
 				text: [ :each | (each module , ' ' , each invocation) gtDisplayString ];
 				color: [ Smalltalk ui theme textColor ].
-			view nodes: (self flatCollect: #stack) asSet.
-			self
+			stackedSignals := self select: #isRemoteSignalWithStack.
+			view nodes: (stackedSignals flatCollect: #stack) asSet.
+			stackedSignals
 				do: [ :aSignal | 
 					frames := aSignal stack sorted: [ :a :b | a index > b index ].
 					frames
