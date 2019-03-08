@@ -12,7 +12,7 @@ SequenceableCollection >> gtInspectorRemoteCallGraphIn: composite [
 		initializeView: [ RTMondrian new ];
 		painting: [ :view | 
 			view shape label
-				text: [ :each | (each module , '.' , each invocation) gtDisplayString ];
+				text: [ :each | (each module , ' ' , each invocation) gtDisplayString ];
 				color: [ Smalltalk ui theme textColor ].
 			view nodes: (self flatCollect: #stack) asSet.
 			self
