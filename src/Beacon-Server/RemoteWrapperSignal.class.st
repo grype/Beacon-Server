@@ -1,8 +1,8 @@
 Class {
 	#name : #RemoteWrapperSignal,
 	#superclass : #WrapperSignal,
-	#traits : 'TBeaconRemoteSignal',
-	#classTraits : 'TBeaconRemoteSignal classTrait',
+	#traits : 'TBeaconRemoteSignal + TBeaconMaterializing',
+	#classTraits : 'TBeaconRemoteSignal classTrait + TBeaconMaterializing classTrait',
 	#instVars : [
 		'targetType'
 	],
@@ -17,8 +17,9 @@ RemoteWrapperSignal >> name [
 ]
 
 { #category : #printing }
-RemoteWrapperSignal >> printOneLineContentsOn: stream [
-	stream nextPutAll: self target
+RemoteWrapperSignal >> printOneLineContentsOn: aStream [
+	self printSourceContentsOn: aStream.
+	aStream nextPutAll: self target
 ]
 
 { #category : #accessing }
