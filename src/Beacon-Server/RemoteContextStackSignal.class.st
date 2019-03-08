@@ -1,12 +1,7 @@
 Class {
 	#name : #RemoteContextStackSignal,
 	#superclass : #ContextStackSignal,
-	#traits : 'TBeaconRemoteSignal',
-	#classTraits : 'TBeaconRemoteSignal classTrait',
+	#traits : 'TBeaconRemoteSignal + TBeaconRemoteCallStack',
+	#classTraits : 'TBeaconRemoteSignal classTrait + TBeaconRemoteCallStack classTrait',
 	#category : #'Beacon-Server-Signals'
 }
-
-{ #category : #'*Beacon-Server' }
-RemoteContextStackSignal >> stack: aStack [
-	stack := aStack
-]
