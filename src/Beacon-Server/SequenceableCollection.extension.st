@@ -1,11 +1,11 @@
 Extension { #name : #SequenceableCollection }
 
 { #category : #'*Beacon-Server' }
-SequenceableCollection >> gtInspectorRemoteCallGraphIn: composite [
+SequenceableCollection >> gtInspectorCallGraphIn: composite [
 	<gtInspectorPresentationOrder: 1>
 	| cls frames |
 	composite roassal2
-		title: [ 'Remote Call Graph' translated ];
+		title: [ 'Call Graph' translated ];
 		when: [ cls := self anyOne class.
 			cls hasTraitComposition
 				and: [ cls traitComposition allTraits includes: TBeaconRemoteCallStack ] ];
