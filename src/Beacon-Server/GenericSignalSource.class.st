@@ -53,20 +53,51 @@ GenericSignalSource >> module: anObject [
 ]
 
 { #category : #printing }
-GenericSignalSource >> printOn: aStream [
-	self identifier
+GenericSignalSource >> printFileDescriptionOn: aStream [
+	(module isNil and: [ fileName isNil ])
+		ifTrue: [ ^ self ].
+
+	aStream nextPut: $[.
+	module ifNotNil: [ :val | aStream nextPutAll: val ].
+	fileName
+		ifNotNil: [ :val | 
+			module ifNotNil: [ aStream nextPut: $. ].
+			aStream nextPutAll: fileName ].
+	line
 		ifNotNil: [ :val | 
 			aStream
-				nextPutAll: val greaseString;
-				nextPut: Character space ].
-	aStream
-		nextPut: $[;
-		nextPutAll: module;
-		nextPut: $.;
-		nextPutAll: fileName;
-		nextPut: $:;
-		nextPutAll: line greaseString;
-		nextPut: $];
-		nextPut: Character space;
-		nextPutAll: functionName
+				nextPut: $:;
+				nextPutAll: val greaseString ].
+	aStream nextPut: $]
+]
+
+{ #category : #printing }
+GenericSignalSource >> printFunctionDescriptionOn: aStream [
+	self functionName
+		ifNotNil: [ :val | 
+			aStream
+				nextPut: $#;
+				nextPutAll: val;
+				nextPut: $: ]
+]
+
+{ #category : #printing }
+GenericSignalSource >> printIdentifierOn: aStream [
+	self identifier
+		ifNotNil: [ :val | aStream nextPutAll: val greaseString ]
+]
+
+{ #category : #printing }
+GenericSignalSource >> printOn: aStream [
+	| position advanced |
+
+	position := aStream position.
+	advanced := false.
+	#(#printIdentifierOn: #printFileDescriptionOn: #printFunctionDescriptionOn:)
+		do: [ :selector | 
+			advanced
+				ifTrue: [ aStream nextPut: Character space ].
+			self perform: selector with: aStream ]
+		separatedBy: [ advanced := aStream position ~= position.
+			position := aStream position ]
 ]
