@@ -1,3 +1,18 @@
+"
+I am a server for logging remote beacon signals.
+
+I utilize JSON-RPC server for gathering remote signals in JSON format, materializing them into appropriate subclasses of BeaconSignal, and then emitting them.
+
+To use me:
+
+server := BeaconServer new.
+server startOn: 4000. // to start listening on port 4000
+server stop. // to stop
+
+ 
+Instance Variables
+	jrpcServer:		<JRPCServer>
+"
 Class {
 	#name : #BeaconServer,
 	#superclass : #Object,
@@ -27,20 +42,9 @@ BeaconServer >> handleEmittedData: aSignalData [
 BeaconServer >> initialize [
 	super initialize.
 	jrpcServer := JRPCServer http
-		port: 4000;
 		addHandlerNamed: 'emit'
 			block: [ :signalData | 
 				signalData do: [ :each | self handleEmittedData: each ] ];
-		yourself
-]
-
-{ #category : #initialization }
-BeaconServer >> initializeOld [
-	super initialize.
-	jrpcServer := JRPCServer http
-		port: 4000;
-		addHandlerNamed: 'emit'
-			block: [ :signalData | self handleEmittedData: signalData ];
 		yourself
 ]
 
@@ -84,8 +88,11 @@ BeaconServer >> sourceFromData: aSignalData [
 ]
 
 { #category : #'starting/stopping' }
-BeaconServer >> start [
-	jrpcServer start
+BeaconServer >> startOn: aPort [
+	self isRunning ifTrue: [ self stop ].
+	jrpcServer
+		port: aPort;
+		start
 ]
 
 { #category : #'starting/stopping' }

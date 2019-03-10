@@ -1,3 +1,15 @@
+"
+I am a generic representation of a text-based source of a remote beacon signal.
+
+In addition to the properties provided by ==TBeaconRemoteSignalSource==, I encapsulate various properties such as module, file, line number and function name, often found in text-based logging facilities.
+
+Instance Variables
+	fileName:		<String>
+	functionName:		<String>
+	line:		<Number>
+	module:		<String>
+			
+"
 Class {
 	#name : #GenericSignalSource,
 	#superclass : #Object,

@@ -1,3 +1,6 @@
+"
+I encapsulate a remote string signal, similar to ==StringSignal==.
+"
 Class {
 	#name : #RemoteStringSignal,
 	#superclass : #StringSignal,

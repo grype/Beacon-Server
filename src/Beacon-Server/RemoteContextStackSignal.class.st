@@ -1,3 +1,6 @@
+"
+I encapsulate a remote context signal, similar to ==ContextSignal==.
+"
 Class {
 	#name : #RemoteContextStackSignal,
 	#superclass : #ThisContextSignal,

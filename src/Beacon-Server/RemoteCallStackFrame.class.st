@@ -1,3 +1,17 @@
+"
+I am a generic representation of an execution stack frame.
+
+I encapsulate various properties often found in stack frames: index, address, invocation...
+
+I am used to capture stack traces transported via remote beacon signals.
+
+Instance Variables
+	address:		<Number> - Memory address
+	index:		<Number>	- Frame index
+	invocation:		<String> - Description of the invocation, e.g. function name + line number...
+	module:		<String> - Identifier of a module per invocation, e.g. application or framework name
+
+"
 Class {
 	#name : #RemoteCallStackFrame,
 	#superclass : #Object,

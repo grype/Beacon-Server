@@ -1,3 +1,6 @@
+"
+I encapsulate a remote exception signal, similar to ==ExceptionSignal==.
+"
 Class {
 	#name : #RemoteExceptionSignal,
 	#superclass : #ExceptionSignal,

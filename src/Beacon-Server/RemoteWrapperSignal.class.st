@@ -1,3 +1,6 @@
+"
+I encapsulate a remote signal wrapping an arbitrary value, similar to ==WrapperSignal==.
+"
 Class {
 	#name : #RemoteWrapperSignal,
 	#superclass : #WrapperSignal,
