@@ -10,3 +10,8 @@ Class {
 RemoteContextStackSignal >> currentStack [
 	^ self stack 
 ]
+
+{ #category : #printing }
+RemoteContextStackSignal >> printOneLineContentsOn: aStream [
+	self source printOneLineContentsOn: aStream
+]

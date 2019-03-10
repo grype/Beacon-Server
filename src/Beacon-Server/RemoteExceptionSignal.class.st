@@ -5,3 +5,8 @@ Class {
 	#classTraits : 'TBeaconRemoteSignal classTrait + TBeaconRemoteCallStack classTrait + TBeaconMaterializing classTrait',
 	#category : #'Beacon-Server-Signals'
 }
+
+{ #category : #'gt-inspector-extension' }
+RemoteExceptionSignal >> gtInspectorDisplayType [
+	^ self class name
+]

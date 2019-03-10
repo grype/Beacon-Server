@@ -1,6 +1,11 @@
 Extension { #name : #BeaconSignal }
 
 { #category : #'*Beacon-Server' }
+BeaconSignal >> gtInspectorDisplayType [
+	^ self class name
+]
+
+{ #category : #'*Beacon-Server' }
 BeaconSignal >> properties: anObject [
 	properties := anObject
 ]

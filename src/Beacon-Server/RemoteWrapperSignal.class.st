@@ -9,6 +9,11 @@ Class {
 	#category : #'Beacon-Server-Signals'
 }
 
+{ #category : #'gt-inspector-extension' }
+RemoteWrapperSignal >> gtInspectorDisplayType [
+	^ self targetType
+]
+
 { #category : #accessing }
 RemoteWrapperSignal >> name [
 	^ 'Remote Wrapper on '
@@ -18,7 +23,6 @@ RemoteWrapperSignal >> name [
 
 { #category : #printing }
 RemoteWrapperSignal >> printOneLineContentsOn: aStream [
-	self printSourceContentsOn: aStream.
 	aStream nextPutAll: self target
 ]
 

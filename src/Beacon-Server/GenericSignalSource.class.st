@@ -101,3 +101,18 @@ GenericSignalSource >> printOn: aStream [
 		separatedBy: [ advanced := aStream position ~= position.
 			position := aStream position ]
 ]
+
+{ #category : #printing }
+GenericSignalSource >> printOneLineContentsOn: aStream [
+	| position advanced |
+
+	position := aStream position.
+	advanced := false.
+	#(#printFileDescriptionOn: #printFunctionDescriptionOn:)
+		do: [ :selector | 
+			advanced
+				ifTrue: [ aStream nextPut: Character space ].
+			self perform: selector with: aStream ]
+		separatedBy: [ advanced := aStream position ~= position.
+			position := aStream position ]
+]

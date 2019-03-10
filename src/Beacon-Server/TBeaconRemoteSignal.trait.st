@@ -13,17 +13,13 @@ TBeaconRemoteSignal >> printOn: aStream [
 ]
 
 { #category : #printing }
-TBeaconRemoteSignal >> printOneLineContentsOn: aStream [
-	self printSourceContentsOn: aStream.
-	super printOneLineContentsOn: aStream
+TBeaconRemoteSignal >> printSourceContentsOn: aStream [
+	self source ifNotNil: [ :src | src printOn: aStream ]
 ]
 
-{ #category : #printing }
-TBeaconRemoteSignal >> printSourceContentsOn: aStream [
-	self source
-		ifNotNil: [ :src | 
-			src printOn: aStream.
-			aStream nextPut: Character space ]
+{ #category : #accessing }
+TBeaconRemoteSignal >> processId [
+	^ source identifier asString
 ]
 
 { #category : #accessing }
