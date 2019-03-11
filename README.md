@@ -1,6 +1,6 @@
 # Beacon-Server
 
-[Beacon](https://github.com/pharo-project/pharo-beacon) server for [Pharo](https://www.pharo.org/) utilizes JSON RPC for collecting Beacon signals from remote systems.
+Server for collecting [Beacon](https://github.com/pharo-project/pharo-beacon) signals from remote clients in [Pharo](https://www.pharo.org/).
 
 ## Installation
 
@@ -13,17 +13,23 @@ Metacello new
 
 ## Usage
 
-This is really all there is to it:
+Create and start an instance of `BeaconServer` and an instance of `SignalLogger`, and you're all set.
 
 ```smalltalk
 server := BeaconServer new.
-server start.
-server isRunning.
+
+"Start server on port 4000"
+server startOn: 4000. 
+
+"Start a logger"
+logger := MemoryLogger instance.
+logger start.
+logger inspect.
+
+"When done, stop the server"
 server stop.
 ```
 
-Start instances of BeaconServer and SignalLogger and you're all set...
+## How does it work?
 
-## How does this work?
-
-`BeaconServer` utilizes a [JRPC](https://github.com/juliendelplanque/JRPC) server to capture signals. It also extends Beacon's hierarchy of Signals with Remote equivalents. This adds two things: #source attribute, which captures signal's origin; and special handling of stack traces (see: `RemoteCallStackFrame` & `TBeaconRemoteCallStack`).
+`BeaconServer` utilizes a [JRPC](https://github.com/juliendelplanque/JRPC) server for capturing Beacon signals from remote clients in JSON format. It also extends Beacon's existing hierarchy of signals with remote equivalents that capture information about the origin of the signal and provide special handling for things like stack traces. This makes it possible to capture arbitrary signals from other, non-Pharo based clients.
