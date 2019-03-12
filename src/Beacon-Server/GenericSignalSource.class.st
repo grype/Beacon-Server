@@ -44,6 +44,16 @@ GenericSignalSource >> functionName: anObject [
 	functionName := anObject
 ]
 
+{ #category : #'gt-inspector-extension' }
+GenericSignalSource >> gtInspectorDisplayString [
+	| str |
+	functionName ifNotNil: [ :val | ^ val ].
+	fileName ifNotNil: [ :val | ^ '{1}:{2}' format: { val. line } ].
+	str := '' writeStream.
+	self printOneLineContentsOn: str.
+	^ str contents truncateTo: 32
+]
+
 { #category : #accessing }
 GenericSignalSource >> line [
 	^ line

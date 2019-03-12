@@ -2,7 +2,7 @@ Extension { #name : #MemoryLogger }
 
 { #category : #'*Beacon-Server' }
 MemoryLogger >> gtInspectorGroupedByProcessIn: composite [
-	<gtInspectorPresentationOrder: 1>
+	<gtInspectorPresentationOrder: 2>
 	composite fastTable 
 		title: 'By Process';
 		display: [ (self recordings reverse groupedBy: [ :each | each processId ]) associations ];
@@ -13,7 +13,7 @@ MemoryLogger >> gtInspectorGroupedByProcessIn: composite [
 
 { #category : #'*Beacon-Server' }
 MemoryLogger >> gtInspectorTimeline: composite [
-	<gtInspectorPresentationOrder: 1>
+	<gtInspectorPresentationOrder: 3>
 	| b ds n group dates |
 
 	composite roassal2
@@ -40,7 +40,7 @@ MemoryLogger >> gtInspectorTimeline: composite [
 			b add: ds.
 
 			b axisY
-				numberOfTicks: (group keys size max: 2);
+				numberOfTicks: (group keys size + 1);
 				labelRotation: -30;
 				labelConversion: [ :each | 
 					each = 0

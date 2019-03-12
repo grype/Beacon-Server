@@ -14,6 +14,11 @@ RemoteContextStackSignal >> currentStack [
 	^ self stack 
 ]
 
+{ #category : #'*Beacon-Server' }
+RemoteContextStackSignal >> gtInspectorDisplayType [
+	^ self source ifNil: [ super gtInspectorDisplayType ] ifNotNil: [ :val | val gtInspectorDisplayString ]
+]
+
 { #category : #printing }
 RemoteContextStackSignal >> printOneLineContentsOn: aStream [
 	self source printOneLineContentsOn: aStream
