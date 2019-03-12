@@ -20,12 +20,18 @@ MemoryLogger >> gtInspectorTimeline: composite [
 		title: [ 'Timeline' translated ];
 		when: [ self recordings isNotEmpty ];
 		updateOn: Announcement from: [ self announcer ];
-		initializeView: [ b := RTGrapher new.
-			b extent: 300 @ 200.
-
+		initializeView: [ | ratio width height |
 			group := self recordings groupedBy: #gtInspectorDisplayType.
 			dates := (self recordings collect: #timestamp) asSet
 				sorted: [ :x :y | x < y ].
+			width := 20.
+			height := 15.
+			ratio := width / height.
+
+			b := RTGrapher new.
+			width := width * group keys size.
+			height := width / ratio.
+			b extent: width @ height.
 
 			n := RTMultiLinearColorForIdentity new.
 			n colors: RTPalette c4 shuffle.
@@ -33,14 +39,15 @@ MemoryLogger >> gtInspectorTimeline: composite [
 
 			ds := RTData new.
 			ds interaction popupText: [ :aSignal | aSignal printString ].
-			ds dotShape circle color: [ :each | n rtValue: each gtInspectorDisplayType ].
+			ds dotShape circle
+				color: [ :each | n rtValue: each gtInspectorDisplayType ].
 			ds points: self recordings.
 			ds x: [ :each | dates indexOf: each timestamp ].
 			ds y: [ :each | group keys indexOf: each gtInspectorDisplayType ].
 			b add: ds.
 
 			b axisY
-				numberOfTicks: (group keys size + 1);
+				numberOfTicks: group keys size + 1;
 				labelRotation: -30;
 				labelConversion: [ :each | 
 					each = 0
@@ -51,7 +58,7 @@ MemoryLogger >> gtInspectorTimeline: composite [
 				numberOfTicks: dates size;
 				labelRotation: -30;
 				labelConversion: [ :i | 
-					0 = i 
+					0 = i
 						ifTrue: [ '' ]
 						ifFalse: [ (dates at: i) asString ] ].
 
