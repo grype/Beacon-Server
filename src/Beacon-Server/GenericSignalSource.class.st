@@ -25,6 +25,11 @@ Class {
 }
 
 { #category : #accessing }
+GenericSignalSource >> fileBaseName [
+	^ (fileName asFileName splitOn: $#) last
+]
+
+{ #category : #accessing }
 GenericSignalSource >> fileName [
 	^ fileName
 ]
@@ -47,7 +52,7 @@ GenericSignalSource >> functionName: anObject [
 { #category : #'gt-inspector-extension' }
 GenericSignalSource >> gtInspectorDisplayString [
 	| str |
-	functionName ifNotNil: [ :val | ^ val ].
+	functionName ifNotNil: [ :val | ^ self fileBaseName ifNil: [ val ] ifNotNil: [ :basename | basename , ':', val] ].
 	fileName ifNotNil: [ :val | ^ '{1}:{2}' format: { val. line } ].
 	str := '' writeStream.
 	self printOneLineContentsOn: str.
