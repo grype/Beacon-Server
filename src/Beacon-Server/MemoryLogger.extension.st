@@ -34,13 +34,14 @@ MemoryLogger >> gtInspectorTimeline: composite [
 			b extent: width @ height.
 
 			n := RTMultiLinearColorForIdentity new.
-			n colors: RTPalette c4 shuffle.
-			n objects: group keys.
+			n colors: RTPalette c4.
+			"n objects: group keys."
+			n objects: (self recordings collect: #class) asSet asOrderedCollection.
 
 			ds := RTData new.
 			ds interaction popupText: [ :aSignal | aSignal printString ].
-			ds dotShape circle
-				color: [ :each | n rtValue: each gtInspectorDisplayType ].
+			"ds dotShape circle color: [ :each | n rtValue: each gtInspectorDisplayType ]."
+			ds dotShape circle color: [ :each | n rtValue: each class ].
 			ds points: self recordings.
 			ds x: [ :each | dates indexOf: each timestamp ].
 			ds y: [ :each | group keys indexOf: each gtInspectorDisplayType ].
