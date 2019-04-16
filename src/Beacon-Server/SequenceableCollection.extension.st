@@ -6,10 +6,10 @@ SequenceableCollection >> gtInspectorCallGraphIn: composite [
 	| frames |
 	composite roassal2
 		title: [ 'Call Graph' translated ];
-		when: [ self
+		when: [ self isCollection and: [ self
 				detect: [ :each | each isRemoteSignalWithStack ]
 				ifFound: [ true ]
-				ifNone: [ false ] ];
+				ifNone: [ false ]] ];
 		initializeView: [ RTMondrian new ];
 		painting: [ :view |
 			| stackedSignals | 
