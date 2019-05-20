@@ -22,6 +22,6 @@ Object >> isRemoteSignal [
 { #category : #'*Beacon-Server' }
 Object >> isRemoteSignalWithStack [
 	^ self class hasTraitComposition
-		and: [ self class traitComposition allTraits
-				includes: TBeaconRemoteCallStack ]
+		and:
+			[ self class traitComposition includesTrait: TBeaconRemoteCallStack ]
 ]
