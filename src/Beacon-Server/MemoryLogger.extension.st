@@ -50,6 +50,7 @@ MemoryLogger >> gtInspectorTimeline: composite [
 			b axisY
 				numberOfTicks: group keys size + 1;
 				labelRotation: -30;
+				smallFontSize;
 				labelConversion: [ :each | 
 					each = 0
 						ifTrue: [ '' ]
@@ -57,6 +58,7 @@ MemoryLogger >> gtInspectorTimeline: composite [
 
 			b axisX
 				numberOfTicks: dates size;
+				smallFontSize;
 				labelRotation: -30;
 				labelConversion: [ :i | 
 					0 = i
