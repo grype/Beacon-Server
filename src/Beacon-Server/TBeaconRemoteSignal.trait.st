@@ -1,7 +1,8 @@
 Trait {
 	#name : #TBeaconRemoteSignal,
 	#instVars : [
-		'source'
+		'source',
+		'userInfo'
 	],
 	#category : #'Beacon-Server-Signals'
 }
@@ -30,4 +31,14 @@ TBeaconRemoteSignal >> source [
 { #category : #accessing }
 TBeaconRemoteSignal >> source: anObject [
 	source := anObject
+]
+
+{ #category : #accessing }
+TBeaconRemoteSignal >> userInfo [
+	^ userInfo
+]
+
+{ #category : #accessing }
+TBeaconRemoteSignal >> userInfo: anObject [
+	userInfo := anObject
 ]
