@@ -24,8 +24,8 @@ MemoryLogger >> gtInspectorTimeline: composite [
 			group := self recordings groupedBy: #gtInspectorDisplayType.
 			dates := (self recordings collect: #timestamp) asSet
 				sorted: [ :x :y | x < y ].
-			width := 20.
-			height := 15.
+			width := 150.
+			height := 100.
 			ratio := width / height.
 
 			b := RTGrapher new.
