@@ -13,6 +13,11 @@ Object class >> isBeaconRemoteSignalSource [
 ]
 
 { #category : #'*Beacon-Server' }
+Object >> isBeaconSignal [
+	^ false
+]
+
+{ #category : #'*Beacon-Server' }
 Object >> isRemoteSignal [
 	^ self class hasTraitComposition
 		and: [ self class traitComposition allTraits

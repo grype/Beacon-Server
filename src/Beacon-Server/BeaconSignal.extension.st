@@ -6,6 +6,11 @@ BeaconSignal >> gtInspectorDisplayType [
 ]
 
 { #category : #'*Beacon-Server' }
+BeaconSignal >> isBeaconSignal [
+	^ true
+]
+
+{ #category : #'*Beacon-Server' }
 BeaconSignal >> properties: anObject [
 	properties := anObject
 ]
