@@ -2,7 +2,8 @@ Extension { #name : #Collection }
 
 { #category : #'*Beacon-Server' }
 Collection >> containsBeaconSignals [
-	^ self anySatisfy: [ :each | each isBeaconSignal ]
+	^ self isCollection
+		and: [ self anySatisfy: [ :each | each isBeaconSignal ] ]
 ]
 
 { #category : #'*Beacon-Server' }
