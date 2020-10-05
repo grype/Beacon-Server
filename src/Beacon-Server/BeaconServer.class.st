@@ -6,8 +6,8 @@ I utilize JSON-RPC server for gathering remote signals in JSON format, materiali
 To use me:
 
 server := BeaconServer new.
-server startOn: 4000. // to start listening on port 4000
-server stop. // to stop
+server startOn: 4000. ""to start listening on port 4000""
+server stop. ""to stop""
 
  
 Instance Variables
