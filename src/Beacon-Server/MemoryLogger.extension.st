@@ -12,6 +12,69 @@ MemoryLogger >> gtInspectorGroupedByProcessIn: composite [
 ]
 
 { #category : #'*Beacon-Server' }
+MemoryLogger >> gtInspectorRecordingsIn: composite [
+	<gtInspectorPresentationOrder: 0>
+	| live |
+
+	live := true.
+	composite fastTable
+		title: 'Recordings';
+		display: [ self recordings reverse ];
+		column: 'Timestamp'
+			evaluated: [ :each | each timestamp asString ]
+			width: 80;
+		column: 'Process' evaluated: [ :each | each processId asString ];
+		column: 'Type' evaluated: [ :each | each name ] width: 80;
+		column: 'Contents'
+			evaluated:
+				[ :each | String streamContents: [ :s | each printOneLineContentsOn: s ] ];
+		showOnly: 50;
+		beMultiple;
+		updateOn: Announcement from: [ self announcer ];
+		selectionAct: [ :table | 
+			recordings := self recordings \ table selection.
+			table update ]
+			icon: GLMUIThemeExtraIcons glamorousRemove
+			entitled: 'Remove';
+		act: [ :table | 
+			self reset.
+			table update ]
+			icon: GLMUIThemeExtraIcons glamorousRemove
+			entitled: 'Remove all';
+		selectionAct: [ :table | 
+			(UIManager default
+				chooseForSaveFileReference: 'Select output file'
+				extensions: #(#ston)
+				path: FileLocator home / 'recordings.ston')
+				ifNotNil: [ :file | 
+					(STONWriter on: file writeStream)
+						nextPut: table selection;
+						close ] ]
+			icon: GLMUIThemeExtraIcons glamorousSave
+			entitled: 'Save selected';
+		act: [ :table | 
+			(UIManager default
+				chooseExistingFileReference: 'Select STON file'
+				extensions: #(#ston)
+				path: FileLocator home)
+				ifNotNil: [ :file | 
+					(STONReader on: file readStream) next
+						ifNotNil: [ :newRecordings | recordings addAll: newRecordings ] ] ]
+			icon: GLMUIThemeExtraIcons glamorousOpen
+			entitled: 'Load from file';
+		dynamicActions: [ :t | 
+			{(GLMGenericAction new
+				action: [ t unregisterFromAllAnnouncements.
+					t pane updateToolbar ];
+				icon: GLMUIThemeExtraIcons glamorousRedCircle;
+				title: 'Stop').
+			(GLMGenericAction new
+				action: [ t pane update ];
+				icon: GLMUIThemeExtraIcons glamorousGreenCircle;
+				title: 'Play')} ]
+]
+
+{ #category : #'*Beacon-Server' }
 MemoryLogger >> gtInspectorTimeline: composite [
 	<gtInspectorPresentationOrder: 3>
 
