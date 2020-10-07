@@ -15,7 +15,6 @@ MemoryLogger >> gtInspectorGroupedByProcessIn: composite [
 MemoryLogger >> gtInspectorRecordingsIn: composite [
 	<gtInspectorPresentationOrder: 0>
 	| live |
-
 	live := true.
 	composite fastTable
 		title: 'Recordings';
@@ -59,7 +58,9 @@ MemoryLogger >> gtInspectorRecordingsIn: composite [
 				path: FileLocator home)
 				ifNotNil: [ :file | 
 					(STONReader on: file readStream) next
-						ifNotNil: [ :newRecordings | recordings addAll: newRecordings ] ] ]
+						ifNotNil: [ :newRecordings | 
+							recordings
+								addAll: (newRecordings sorted: [ :a :b | a timestamp < b timestamp ]) ] ] ]
 			icon: GLMUIThemeExtraIcons glamorousOpen
 			entitled: 'Load from file';
 		dynamicActions: [ :t | 
@@ -109,7 +110,7 @@ MemoryLogger class >> gtTimelineOn: aCollectionOfSignals [
 
 	ds := RTData new.
 	ds interaction popupText: [ :aSignal | aSignal printString ].
-	ds dotShape circle color: [ :each | n rtValue: each gtInspectorDisplayType ].
+	ds dotShape circle color: [ :each | n rtValue: each gtInspectorDisplayType ]; size: 10.
 "	ds dotShape circle color: [ :each | n rtValue: each class ]."
 	ds points: aCollectionOfSignals.
 	ds x: [ :each | dates indexOf: each timestamp ].
