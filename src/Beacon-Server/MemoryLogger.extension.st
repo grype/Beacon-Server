@@ -88,18 +88,17 @@ MemoryLogger >> gtInspectorTimeline: composite [
 
 { #category : #'*Beacon-Server' }
 MemoryLogger class >> gtTimelineOn: aCollectionOfSignals [
-	| ratio width height group dates b n ds |
+	| width height group dates b n ds |
 
 	group := aCollectionOfSignals groupedBy: #gtInspectorDisplayType.
 	dates := (aCollectionOfSignals collect: #timestamp) asSet
 		sorted: [ :x :y | x < y ].
-	width := 150.
-	height := 100.
-	ratio := width / height.
+	width := 20.
+	height := 25.
 
 	b := RTGrapher new.
-	width := width * group keys size.
-	height := width / ratio.
+	width := width * dates size.
+	height := height * group keys size.
 	b extent: width @ height.
 
 	n := RTMultiLinearColorForIdentity new.
