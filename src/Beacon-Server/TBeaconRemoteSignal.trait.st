@@ -7,6 +7,11 @@ Trait {
 	#category : #'Beacon-Server-Signals'
 }
 
+{ #category : #testing }
+TBeaconRemoteSignal >> isRemoteBeaconSignal [ 
+	^ true
+]
+
 { #category : #printing }
 TBeaconRemoteSignal >> printOn: aStream [
 	self printSourceContentsOn: aStream.

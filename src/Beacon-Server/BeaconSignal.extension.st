@@ -11,6 +11,11 @@ BeaconSignal >> isBeaconSignal [
 ]
 
 { #category : #'*Beacon-Server' }
+BeaconSignal >> isRemoteBeaconSignal [
+	^ false
+]
+
+{ #category : #'*Beacon-Server' }
 BeaconSignal >> properties: anObject [
 	properties := anObject
 ]
