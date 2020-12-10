@@ -53,6 +53,11 @@ BeaconServer >> isRunning [
 	^ jrpcServer isRunning 
 ]
 
+{ #category : #accessing }
+BeaconServer >> port [
+	^ jrpcServer port
+]
+
 { #category : #private }
 BeaconServer >> signalFromData: aSignalData [
 	| signalClass signal source |
