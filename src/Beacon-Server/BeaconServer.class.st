@@ -60,7 +60,7 @@ BeaconServer >> port [
 
 { #category : #private }
 BeaconServer >> signalFromData: aSignalData [
-	| signalClass signal source |
+	| signalClass signal |
 
 	signalClass := (self class classEncodedInData: aSignalData)
 		ifNil: [ ^ nil ].
@@ -72,8 +72,10 @@ BeaconServer >> signalFromData: aSignalData [
 		ifFalse: [ signalClass new ].
 
 	signal isRemoteSignal
-		ifTrue: [ source := self sourceFromData: aSignalData.
-			signal source: source ].
+		ifFalse: [ ^ signal ].
+
+	(self sourceFromData: aSignalData)
+		ifNotNil: [ :source | signal source: source ].
 
 	^ signal
 ]
@@ -83,6 +85,7 @@ BeaconServer >> sourceFromData: aSignalData [
 	| sourceData sourceClass |
 
 	sourceData := aSignalData at: #source ifAbsent: [ ^ nil ].
+	sourceData ifNil: [ ^ nil ].
 	sourceClass := (self class classEncodedInData: sourceData)
 		ifNil: [ GenericSignalSource ].
 	sourceClass isBeaconRemoteSignalSource

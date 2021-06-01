@@ -1,7 +1,8 @@
 Trait {
 	#name : #TBeaconRemoteCallStack,
 	#instVars : [
-		'stack'
+		'stack',
+		'symbols'
 	],
 	#category : #'Beacon-Server-Signals'
 }
@@ -53,4 +54,14 @@ TBeaconRemoteCallStack >> stack: aStack [
 	stack := aStack.
 	(aStack isCollection and: [ aStack first isDictionary ]) ifFalse: [ ^ self ].
 	stack := aStack collect: [ :each | RemoteCallStackFrame fromDictionary: each ]
+]
+
+{ #category : #accessing }
+TBeaconRemoteCallStack >> symbols [
+	^ symbols
+]
+
+{ #category : #accessing }
+TBeaconRemoteCallStack >> symbols: anObject [
+	symbols := anObject
 ]

@@ -23,6 +23,11 @@ Object >> isRemoteBeaconSignal [
 ]
 
 { #category : #'*Beacon-Server' }
+Object >> isRemoteBeaconSignalOfType: aTypeName [
+	^ false
+]
+
+{ #category : #'*Beacon-Server' }
 Object >> isRemoteSignal [
 	^ self class hasTraitComposition
 		and: [ self class traitComposition allTraits
@@ -34,4 +39,9 @@ Object >> isRemoteSignalWithStack [
 	^ self class hasTraitComposition
 		and:
 			[ self class traitComposition includesTrait: TBeaconRemoteCallStack ]
+]
+
+{ #category : #'*Beacon-Server' }
+Object >> remoteBeaconType [
+	^ nil
 ]

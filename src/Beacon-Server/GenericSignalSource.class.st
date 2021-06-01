@@ -89,7 +89,7 @@ GenericSignalSource >> printFileDescriptionOn: aStream [
 	fileName
 		ifNotNil: [ :val | 
 			module ifNotNil: [ aStream nextPut: $. ].
-			aStream nextPutAll: fileName ].
+			aStream nextPutAll: fileName asPath basename ].
 	line
 		ifNotNil: [ :val | 
 			aStream

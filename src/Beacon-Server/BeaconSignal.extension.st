@@ -16,6 +16,11 @@ BeaconSignal >> isRemoteBeaconSignal [
 ]
 
 { #category : #'*Beacon-Server' }
+BeaconSignal >> matches: aString [
+	^ self name asLowercase includesSubstring: aString asLowercase 
+]
+
+{ #category : #'*Beacon-Server' }
 BeaconSignal >> properties: anObject [
 	properties := anObject
 ]

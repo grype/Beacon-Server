@@ -7,6 +7,16 @@ Collection >> containsBeaconSignals [
 ]
 
 { #category : #'*Beacon-Server' }
+Collection >> gtInspectorCallEventsIn: composite [
+	<gtInspectorPresentationOrder: 10>
+
+	composite roassal2
+		title: [ 'Call Events' translated ];
+		when: [ self containsBeaconSignals ];
+		initializeView: [ MemoryLogger gtCallEventsOn: (self select: #isRemoteBeaconSignal) ]
+]
+
+{ #category : #'*Beacon-Server' }
 Collection >> gtInspectorTimeline: composite [
 	<gtInspectorPresentationOrder: 3>
 
