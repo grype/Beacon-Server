@@ -17,30 +17,24 @@ Class {
 	#name : #BeaconServer,
 	#superclass : #Object,
 	#instVars : [
-		'jrpcServer'
+		'jrpcServer',
+		'parser'
 	],
 	#category : #'Beacon-Server-Server'
 }
-
-{ #category : #private }
-BeaconServer class >> classEncodedInData: aDictionary [
-	^ aDictionary
-		at: #__class
-		ifPresent: [ :cls | Smalltalk at: cls asSymbol ifAbsent: [ nil ] ]
-		ifAbsent: [ nil ]
-]
 
 { #category : #'event handling' }
 BeaconServer >> handleEmittedData: aSignalData [
 	| signal |
 	
-	signal := self signalFromData: aSignalData.
+	signal := parser parse: aSignalData.
 	signal emit
 ]
 
 { #category : #initialization }
 BeaconServer >> initialize [
 	super initialize.
+	parser := BeaconRemoteSignalParser new.
 	jrpcServer := JRPCServer http
 		addHandlerNamed: 'emit'
 			block: [ :signalData | 
@@ -56,43 +50,6 @@ BeaconServer >> isRunning [
 { #category : #accessing }
 BeaconServer >> port [
 	^ jrpcServer port
-]
-
-{ #category : #private }
-BeaconServer >> signalFromData: aSignalData [
-	| signalClass signal |
-
-	signalClass := (self class classEncodedInData: aSignalData)
-		ifNil: [ ^ nil ].
-	(signalClass inheritsFrom: BeaconSignal)
-		ifFalse: [ ^ nil ].
-
-	signal := signalClass isBeaconMaterializable
-		ifTrue: [ signalClass fromDictionary: aSignalData ]
-		ifFalse: [ signalClass new ].
-
-	signal isRemoteSignal
-		ifFalse: [ ^ signal ].
-
-	(self sourceFromData: aSignalData)
-		ifNotNil: [ :source | signal source: source ].
-
-	^ signal
-]
-
-{ #category : #private }
-BeaconServer >> sourceFromData: aSignalData [
-	| sourceData sourceClass |
-
-	sourceData := aSignalData at: #source ifAbsent: [ ^ nil ].
-	sourceData ifNil: [ ^ nil ].
-	sourceClass := (self class classEncodedInData: sourceData)
-		ifNil: [ GenericSignalSource ].
-	sourceClass isBeaconRemoteSignalSource
-		ifFalse: [ ^ nil ].
-	^ sourceClass isBeaconMaterializable
-		ifTrue: [ sourceClass fromDictionary: sourceData ]
-		ifFalse: [ sourceClass new ]
 ]
 
 { #category : #'starting/stopping' }

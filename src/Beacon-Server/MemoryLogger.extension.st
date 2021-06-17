@@ -86,6 +86,7 @@ MemoryLogger >> gtInspectorGroupedByProcessIn: composite [
 
 { #category : #'*Beacon-Server' }
 MemoryLogger >> gtInspectorRecordingsIn: composite [
+
 	<gtInspectorPresentationOrder: 0>
 	| live |
 	live := true.
@@ -93,59 +94,51 @@ MemoryLogger >> gtInspectorRecordingsIn: composite [
 		title: 'Recordings';
 		display: [ self recordings reverse ];
 		column: 'Timestamp'
-			evaluated: [ :each | each timestamp asString ]
-			width: 80;
-		column: 'Process' evaluated: [ :each | each processId ifNotNil: [:pid | pid asString] ];
+		evaluated: [ :each | each timestamp asString ]
+		width: 80;
+		column: 'Process'
+		evaluated: [ :each | 
+			each processId ifNotNil: [ :pid | pid asString ] ];
 		column: 'Type' evaluated: [ :each | each name ] width: 80;
-		column: 'Contents'
-			evaluated:
-				[ :each | String streamContents: [ :s | each printOneLineContentsOn: s ] ];
+		column: 'Contents' evaluated: [ :each | 
+			String streamContents: [ :s | each printOneLineContentsOn: s ] ];
 		showOnly: 50;
 		beMultiple;
 		updateOn: Announcement from: [ self announcer ];
 		selectionAct: [ :table | 
 			recordings := self recordings \ table selection.
 			table update ]
-			icon: GLMUIThemeExtraIcons glamorousRemove
-			entitled: 'Remove';
+		icon: GLMUIThemeExtraIcons glamorousRemove entitled: 'Remove';
 		act: [ :table | 
 			self reset.
 			table update ]
-			icon: GLMUIThemeExtraIcons glamorousRemove
-			entitled: 'Remove all';
+		icon: GLMUIThemeExtraIcons glamorousRemove entitled: 'Remove all';
 		selectionAct: [ :table | 
 			(UIManager default
-				chooseForSaveFileReference: 'Select output file'
-				extensions: #(#ston)
-				path: FileLocator home / 'recordings.ston')
-				ifNotNil: [ :file | 
-					(STONWriter on: file writeStream)
-						nextPut: table selection;
-						close ] ]
-			icon: GLMUIThemeExtraIcons glamorousSave
-			entitled: 'Save selected';
+				 chooseForSaveFileReference: 'Select output file'
+				 extensions: #( #ston )
+				 path: FileLocator home / 'recordings.ston') ifNotNil: [ :file | 
+					self saveRecordings: table selection toFile: file ] ]
+		icon: GLMUIThemeExtraIcons glamorousSave entitled: 'Save selected';
 		act: [ :table | 
 			(UIManager default
-				chooseExistingFileReference: 'Select STON file'
-				extensions: #(#ston)
-				path: FileLocator home)
-				ifNotNil: [ :file | 
-					(STONReader on: file readStream) next
-						ifNotNil: [ :newRecordings | 
-							recordings
-								addAll: (newRecordings sorted: [ :a :b | a timestamp < b timestamp ]) ] ] ]
-			icon: GLMUIThemeExtraIcons glamorousOpen
-			entitled: 'Load from file';
+				 chooseExistingFileReference: 'Select STON file'
+				 extensions: #( #ston #json #log )
+				 path: FileLocator home) ifNotNil: [ :file | 
+					self loadFromFile: file ] ]
+		icon: GLMUIThemeExtraIcons glamorousOpen entitled: 'Load from file';
 		dynamicActions: [ :t | 
-			{(GLMGenericAction new
-				action: [ t unregisterFromAllAnnouncements.
-					t pane updateToolbar ];
-				icon: GLMUIThemeExtraIcons glamorousRedCircle;
-				title: 'Stop').
-			(GLMGenericAction new
-				action: [ t pane update ];
-				icon: GLMUIThemeExtraIcons glamorousGreenCircle;
-				title: 'Play')} ]
+			{ 
+				(GLMGenericAction new
+					 action: [ 
+						 t unregisterFromAllAnnouncements.
+						 t pane updateToolbar ];
+					 icon: GLMUIThemeExtraIcons glamorousRedCircle;
+					 title: 'Stop').
+				(GLMGenericAction new
+					 action: [ t pane update ];
+					 icon: GLMUIThemeExtraIcons glamorousGreenCircle;
+					 title: 'Play') } ]
 ]
 
 { #category : #'*Beacon-Server' }
@@ -209,6 +202,47 @@ MemoryLogger class >> gtTimelineOn: aCollectionOfSignals [
 
 	b build.
 	^ b view
+]
+
+{ #category : #'*Beacon-Server' }
+MemoryLogger >> loadFromFile: file [
+
+	file extension asLowercase = #ston ifTrue: [ 
+		^ self loadFromSTONFile: file ].
+	file extension asLowercase = #log ifTrue: [  
+		^ self loadFromJSONFile: file ].
+	file extension asLowercase = #json ifTrue: [ 
+		^ self loadFromJSONFile: file ].
+	Error signal: 'Unrecognized file format'
+]
+
+{ #category : #'*Beacon-Server' }
+MemoryLogger >> loadFromJSONFile: file [
+
+	| parser signals |
+	parser := BeaconRemoteSignalParser new.
+	signals := (file contents splitOn: Character cr)
+		           select: [ :each | each trimBoth isNotEmpty ]
+		           thenCollect: [ :each | 
+		           parser parse: (NeoJSONReader fromString: each) ].
+	^ recordings addAll:
+		  (signals sorted: [ :a :b | a timestamp < b timestamp ])
+]
+
+{ #category : #'*Beacon-Server' }
+MemoryLogger >> loadFromSTONFile: file [
+
+	^ (STONReader on: file readStream) next ifNotNil: [ :newRecordings | 
+		  recordings addAll:
+			  (newRecordings sorted: [ :a :b | a timestamp < b timestamp ]) ]
+]
+
+{ #category : #'*Beacon-Server' }
+MemoryLogger >> saveRecordings: recs toFile: file [
+
+	^ (STONWriter on: file writeStream)
+		  nextPut: recs;
+		  close
 ]
 
 { #category : #'*Beacon-Server' }
