@@ -198,7 +198,7 @@ MemoryLogger class >> gtTimelineOn: aCollectionOfSignals [
 		labelConversion: [ :i | 
 			0 = i
 				ifTrue: [ '' ]
-				ifFalse: [ (analyzer at: i) asString ] ].
+				ifFalse: [ (analyzer at: i asInteger) asString ] ].
 
 	b build.
 	^ b view
