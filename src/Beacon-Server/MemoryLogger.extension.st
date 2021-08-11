@@ -221,7 +221,7 @@ MemoryLogger >> loadFromJSONFile: file [
 
 	| parser signals |
 	parser := BeaconRemoteSignalParser new.
-	signals := (file contents splitOn: Character cr)
+	signals := (file contents splitOn: Character lf)
 		           select: [ :each | each trimBoth isNotEmpty ]
 		           thenCollect: [ :each | 
 		           parser parse: (NeoJSONReader fromString: each) ].
