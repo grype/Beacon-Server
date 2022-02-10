@@ -9,20 +9,21 @@ Trait {
 
 { #category : #'gt-inspector-extension' }
 TBeaconRemoteCallStack >> gtInspectorCallGraphIn: composite [
+
 	<gtInspectorPresentationOrder: 1>
 	| frames |
 	composite roassal2
-		title: ['Call Graph' translated];
+		title: [ 'Call Graph' translated ];
 		initializeView: [ RTMondrian new ];
 		painting: [ :view | 
 			frames := self stack sorted: [ :a :b | a index > b index ].
 			view shape label
-				text:
-					[ :each | (each module , ' ' , each invocation) gtDisplayString ];
+				text: [ :each | 
+					(each module , ' ' , each invocation) displayString ];
 				color: [ Smalltalk ui theme textColor ].
 			view nodes: frames.
-			frames
-				overlappingPairsDo: [ :a :b | view edges connectFrom: [ :x | b ] to: [ :x | a ] ].
+			frames overlappingPairsDo: [ :a :b | 
+				view edges connectFrom: [ :x | b ] to: [ :x | a ] ].
 			view layout tree ]
 ]
 
