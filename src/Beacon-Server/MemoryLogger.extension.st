@@ -120,6 +120,9 @@ MemoryLogger >> gtInspectorRecordingsIn: composite [
 				 path: FileLocator home / 'recordings.ston') ifNotNil: [ :file | 
 					self saveRecordings: table selection toFile: file ] ]
 		icon: GLMUIThemeExtraIcons glamorousSave entitled: 'Save selected';
+		selectionAct: [ :table | 
+			(self class newWithRecordings: table selection) inspect ]
+		icon: GLMUIThemeExtraIcons glamorousInspect entitled: 'Inspect';
 		act: [ :table | 
 			(UIManager default
 				 chooseExistingFileReference: 'Select STON file'
@@ -198,10 +201,16 @@ MemoryLogger class >> gtTimelineOn: aCollectionOfSignals [
 		labelConversion: [ :i | 
 			0 = i
 				ifTrue: [ '' ]
-				ifFalse: [ (analyzer at: i asInteger) asString ] ].
+				ifFalse: [ (analyzer at: i greaseInteger) greaseString ] ].
 
 	b build.
 	^ b view
+]
+
+{ #category : #'*Beacon-Server' }
+MemoryLogger >> initializeWithRecordings: aCollectionOfRecordings [
+	self initialize.
+	recordings addAll: aCollectionOfRecordings 
 ]
 
 { #category : #'*Beacon-Server' }
@@ -235,6 +244,12 @@ MemoryLogger >> loadFromSTONFile: file [
 	^ (STONReader on: file readStream) next ifNotNil: [ :newRecordings | 
 		  recordings addAll:
 			  (newRecordings sorted: [ :a :b | a timestamp < b timestamp ]) ]
+]
+
+{ #category : #'*Beacon-Server' }
+MemoryLogger class >> newWithRecordings: aCollectionOfRecordings [
+
+	^ self basicNew initializeWithRecordings: aCollectionOfRecordings
 ]
 
 { #category : #'*Beacon-Server' }
