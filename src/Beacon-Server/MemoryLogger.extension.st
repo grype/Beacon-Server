@@ -105,6 +105,11 @@ MemoryLogger >> gtInspectorRecordingsIn: composite [
 		showOnly: 50;
 		beMultiple;
 		updateOn: Announcement from: [ self announcer ];
+		enableFilter: [ :item :pattern | 
+			((pattern asLowercase splitOn: Character space) select: #isNotEmpty)
+				detect: [ :word | item matches: word ]
+				ifFound: [ true ]
+				ifNone: [ false ] ];
 		selectionAct: [ :table | 
 			recordings := self recordings \ table selection.
 			table update ]
@@ -122,7 +127,17 @@ MemoryLogger >> gtInspectorRecordingsIn: composite [
 		icon: GLMUIThemeExtraIcons glamorousSave entitled: 'Save selected';
 		selectionAct: [ :table | 
 			(self class newWithRecordings: table selection) inspect ]
-		icon: GLMUIThemeExtraIcons glamorousInspect entitled: 'Inspect';
+		icon: GLMUIThemeExtraIcons glamorousInspect
+		entitled: 'Inspect';
+		selectionAct: [ :table | 
+			| first last |
+			first := recordings indexOf: table selection first.
+			last := recordings indexOf: table selection last.
+			(MemoryLogger newWithRecordings:
+					 (recordings copyFrom: (first min: last) to: (first max: last)))
+				inspect ]
+		entitled: 'All between' enabledWhen: [ :table | 
+			table selection size > 1 ];
 		act: [ :table | 
 			(UIManager default
 				 chooseExistingFileReference: 'Select STON file'
