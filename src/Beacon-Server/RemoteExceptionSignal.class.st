@@ -13,3 +13,8 @@ Class {
 RemoteExceptionSignal >> gtInspectorDisplayType [
 	^ self class name
 ]
+
+{ #category : #'*Beacon-Server' }
+RemoteExceptionSignal >> isRemoteExceptionSignal [
+	^ true
+]

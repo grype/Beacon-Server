@@ -20,6 +20,11 @@ RemoteIdentitySignal >> info: anObject [
 	info := anObject
 ]
 
+{ #category : #'*Beacon-Server' }
+RemoteIdentitySignal >> isRemoteIdentitySignal [
+	^ true
+]
+
 { #category : #accessing }
 RemoteIdentitySignal >> printOneLineContentsOn: stream [
 	version

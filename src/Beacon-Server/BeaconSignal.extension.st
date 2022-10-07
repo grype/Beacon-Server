@@ -16,6 +16,31 @@ BeaconSignal >> isRemoteBeaconSignal [
 ]
 
 { #category : #'*Beacon-Server' }
+BeaconSignal >> isRemoteContextStackSignal [
+	^ false
+]
+
+{ #category : #'*Beacon-Server' }
+BeaconSignal >> isRemoteExceptionSignal [
+	^ false
+]
+
+{ #category : #'*Beacon-Server' }
+BeaconSignal >> isRemoteIdentitySignal [
+	^ false
+]
+
+{ #category : #'*Beacon-Server' }
+BeaconSignal >> isRemoteImportsSignal [
+	^ false
+]
+
+{ #category : #'*Beacon-Server' }
+BeaconSignal >> isRemoteWrapperSignal [
+	^ false
+]
+
+{ #category : #'*Beacon-Server' }
 BeaconSignal >> matches: aString [
 	^ self name asLowercase includesSubstring: aString asLowercase 
 ]

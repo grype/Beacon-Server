@@ -20,6 +20,11 @@ RemoteImportsSignal >> added: anObject [
 	added := anObject
 ]
 
+{ #category : #'*Beacon-Server' }
+RemoteImportsSignal >> isRemoteImportsSignal [
+	^ true
+]
+
 { #category : #accessing }
 RemoteImportsSignal >> printOneLineContentsOn: stream [
 	added

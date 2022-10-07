@@ -30,6 +30,11 @@ RemoteWrapperSignal >> isRemoteBeaconSignalOfType: aTypeName [
 	^ self targetType = aTypeName
 ]
 
+{ #category : #'*Beacon-Server' }
+RemoteWrapperSignal >> isRemoteWrapperSignal [
+	^ true
+]
+
 { #category : #accessing }
 RemoteWrapperSignal >> name [
 	^ 'Remote Wrapper on '
